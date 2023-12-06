@@ -193,4 +193,7 @@ pyrightconfig.json
 .ionide
 # Ignorar archivos PDF generados que comienzan con 'boleta_'
 boleta_*.pdf
+#Ignorar la base de datos
+sueldos.db
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python
