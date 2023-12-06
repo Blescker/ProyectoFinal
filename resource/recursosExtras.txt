@@ -1,3 +1,5 @@
 #Generador de .gitignore
 https://www.toptal.com/developers/gitignore
 
+#Para la boleta
+pip install reportlab
