@@ -1,3 +1,5 @@
+from src.Model.database import Sueldo, session
+
 def calcular_sueldo_neto(sueldo_basico, dias_falta, minutos_tardanza, horas_extras):
     # Bonificaciones
     pago_horas_extras = 1.50 * horas_extras * sueldo_basico / 30 / 8

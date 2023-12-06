@@ -3,6 +3,21 @@ from tkinter import messagebox
 from src.Model.sueldo_calculo import calcular_sueldo_neto
 from src.Model.database import Sueldo, session  # Importa la clase Sueldo y la sesión de SQLAlchemy
 
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+import os
+
+def generar_boleta(nombre, sueldo_basico, dias_falta, minutos_tardanza, horas_extras, sueldo_neto):
+    c = canvas.Canvas(f"boleta_{nombre}.pdf", pagesize=letter)
+    c.drawString(100, 750, f"Boleta de Pago para {nombre}")
+    c.drawString(100, 730, f"Sueldo Básico: {sueldo_basico}")
+    c.drawString(100, 710, f"Días de Faltas: {dias_falta}")
+    c.drawString(100, 690, f"Minutos de Tardanza: {minutos_tardanza}")
+    c.drawString(100, 670, f"Horas Extras: {horas_extras}")
+    c.drawString(100, 650, f"Sueldo Neto: {sueldo_neto:.2f}")
+
+    c.save()
+    
 def calcular_sueldo():
     try:
         # Obtener los valores de entrada
@@ -23,6 +38,8 @@ def calcular_sueldo():
             horas_extras=horas_extras_val,
             sueldo_neto=sueldo_neto
         )
+        #Generar la boleta
+        generar_boleta(nombre_trabajador.get(), sueldo_basico_val, dias_falta_val, minutos_tardanza_val, horas_extras_val, sueldo_neto)
         # Añadir el registro a la sesión y guardar en la base de datos
         session.add(sueldo_registrado)
         session.commit()
