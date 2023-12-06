@@ -1,14 +1,17 @@
-import tkinter as tk
-from tkinter import messagebox
-from src.Model.sueldo_calculo import calcular_sueldo_neto
+import tkinter as tk #Biblioteca para la interfaz
+from tkinter import messagebox #Para mostrar los mensajes de error
+
+#Modulos importados
+from src.Model.sueldo_calculo import calcular_sueldo_neto 
 from src.Model.database import Sueldo, session  # Importa la clase Sueldo y la sesión de SQLAlchemy
 
+#Biblioteca para generar los pdf
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import os
 
-def generar_boleta(nombre, sueldo_basico, dias_falta, minutos_tardanza, horas_extras, sueldo_neto):
-    c = canvas.Canvas(f"boleta_{nombre}.pdf", pagesize=letter)
+def generar_boleta(nombre, sueldo_basico, dias_falta, minutos_tardanza, horas_extras, sueldo_neto): #Argumentos que recibe
+    c = canvas.Canvas(f"boleta_{nombre}.pdf", pagesize=letter) #Nombre de la boleta  y tamaño de pagina
     c.drawString(100, 750, f"Boleta de Pago para {nombre}")
     c.drawString(100, 730, f"Sueldo Básico: {sueldo_basico}")
     c.drawString(100, 710, f"Días de Faltas: {dias_falta}")
@@ -42,6 +45,7 @@ def calcular_sueldo():
         generar_boleta(nombre_trabajador.get(), sueldo_basico_val, dias_falta_val, minutos_tardanza_val, horas_extras_val, sueldo_neto)
         # Añadir el registro a la sesión y guardar en la base de datos
         session.add(sueldo_registrado)
+        #Guardar cambios
         session.commit()
         # Actualizar el label con el resultado
         resultado_label.config(text=f"Sueldo Neto a pagar: {sueldo_neto:.2f}")
@@ -49,6 +53,7 @@ def calcular_sueldo():
         messagebox.showerror("Error", "Por favor ingrese valores válidos.")
 
 def mostrar_reportes():
+    #Crea una nueva ventana, venta_reportes nombre de la variable de la ventana
     ventana_reportes = tk.Toplevel(root)
     ventana_reportes.title("Reportes de Sueldos")
     ventana_reportes.geometry("400x400")
@@ -62,14 +67,12 @@ def mostrar_reportes():
 root = tk.Tk()
 root.title("Cálculo de Sueldo - Horizonte")
 root.geometry("400x400")  # Aumentamos el tamaño de la ventana
-
-# Configuración de la grilla
+# Configuración del tamaño
 root.grid_columnconfigure(1, weight=1)
-
 # Campos de entrada y etiquetas
-tk.Label(root, text="Nombre del Trabajador:").grid(row=0, column=0, padx=10, pady=10, sticky="e")
-nombre_trabajador = tk.Entry(root)
-nombre_trabajador.grid(row=0, column=1, padx=10, pady=10, sticky="we")
+tk.Label(root, text="Nombre del Trabajador:").grid(row=0, column=0, padx=10, pady=10, sticky="e") #label nombre stick=e alinear derecha
+nombre_trabajador = tk.Entry(root) #Para ingresar los datos
+nombre_trabajador.grid(row=0, column=1, padx=10, pady=10, sticky="we") #oeste y este west east, crecera en esta direccion
 
 tk.Label(root, text="Sueldo Básico:").grid(row=1, column=0, padx=10, pady=10, sticky="e")
 sueldo_basico = tk.Entry(root)
@@ -88,8 +91,8 @@ horas_extras = tk.Entry(root)
 horas_extras.grid(row=4, column=1, padx=10, pady=10, sticky="we")
 
 # Botón para calcular
-boton_calcular = tk.Button(root, text="Calcular Sueldo", command=calcular_sueldo)
-boton_calcular.grid(row=5, column=0, columnspan=2, padx=20, pady=20, sticky="ew")
+boton_calcular = tk.Button(root, text="Calcular Sueldo", command=calcular_sueldo) # Crear boton calcular
+boton_calcular.grid(row=5, column=0, columnspan=2, padx=20, pady=20, sticky="ew") #
 
 # Label para mostrar el resultado
 resultado_label = tk.Label(root, text="Sueldo Neto a pagar: ")
@@ -98,6 +101,5 @@ resultado_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="ew
 # Botón para ver reportes de sueldos
 boton_ver_reportes = tk.Button(root, text="Ver Reportes de Sueldos", command=mostrar_reportes)
 boton_ver_reportes.grid(row=8, column=1, padx=10, pady=10, sticky="e")
-
 # Iniciar la GUI
 root.mainloop()

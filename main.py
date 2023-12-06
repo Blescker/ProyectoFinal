@@ -1,5 +1,3 @@
-# main.py
-
 from src.View.main_menu import iniciar_menu_principal
 
 if __name__ == "__main__":

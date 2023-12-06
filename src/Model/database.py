@@ -1,7 +1,5 @@
-# src/Model/database.py
-
-from sqlalchemy import create_engine, Column, Integer, Float, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine, Column, Integer, Float, String 
+from sqlalchemy.ext.declarative import declarative_base 
 from sqlalchemy.orm import sessionmaker
 
 # Crear el motor de la base de datos (SQLite en este caso)
