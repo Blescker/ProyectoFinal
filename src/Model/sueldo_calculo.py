@@ -1,9 +1,17 @@
 from src.Model.database import Sueldo, session
 
 def calcular_sueldo_neto(sueldo_basico, dias_falta, minutos_tardanza, horas_extras):
+    
+    for tests in [sueldo_basico, dias_falta, minutos_tardanza, horas_extras]:
+        if not isinstance(tests, (int, float)):
+            raise ValueError("Los argumentos deben ser números")
     # Bonificaciones
+    #Calculo de pago de horas extra
+    #1.
     pago_horas_extras = 1.50 * horas_extras * sueldo_basico / 30 / 8
+    #Movilidad
     movilidad = 1000
+    
     bonificacion_suplementaria = 0.03 * sueldo_basico
     total_bonificaciones = pago_horas_extras + movilidad + bonificacion_suplementaria
 
