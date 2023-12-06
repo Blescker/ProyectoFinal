@@ -48,6 +48,16 @@ def calcular_sueldo():
     except ValueError:
         messagebox.showerror("Error", "Por favor ingrese valores válidos.")
 
+def mostrar_reportes():
+    ventana_reportes = tk.Toplevel(root)
+    ventana_reportes.title("Reportes de Sueldos")
+    ventana_reportes.geometry("400x400")
+
+    # Consultar la base de datos para obtener los sueldos
+    sueldos = session.query(Sueldo).all()
+    for i, registro in enumerate(sueldos):
+        tk.Label(ventana_reportes, text=f"{registro.nombre_trabajador}: {registro.sueldo_neto:.2f} soles").grid(row=i, column=0, sticky="w")
+        
 # Configuración de la ventana principal
 root = tk.Tk()
 root.title("Cálculo de Sueldo - Horizonte")
@@ -84,6 +94,10 @@ boton_calcular.grid(row=5, column=0, columnspan=2, padx=20, pady=20, sticky="ew"
 # Label para mostrar el resultado
 resultado_label = tk.Label(root, text="Sueldo Neto a pagar: ")
 resultado_label.grid(row=6, column=0, columnspan=2, padx=10, pady=10, sticky="ew")
+
+# Botón para ver reportes de sueldos
+boton_ver_reportes = tk.Button(root, text="Ver Reportes de Sueldos", command=mostrar_reportes)
+boton_ver_reportes.grid(row=8, column=1, padx=10, pady=10, sticky="e")
 
 # Iniciar la GUI
 root.mainloop()
